@@ -11,7 +11,7 @@ local strings = {
 --- Loads the translations for the given language.
 ---@param languageCode string
 local function LoadTranslations(languageCode)
-    local translations = require("strings/languages/" .. languageCode)
+    local translations = require("itemmeta.language.translations." .. languageCode)
 
     for key, value in pairs(translations) do
         strings[key] = value
