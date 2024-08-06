@@ -16,7 +16,7 @@ Item Meta is a quality-of-life client mod for **Don't Starve Together**. It is d
 
 ## Installation
 
-- Subscribe to the mod in the Steam Workshop.
+- Subscribe to the mod in the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3304170027).
 
 Or
 
