@@ -7,8 +7,10 @@ for _, modName in pairs(GLOBAL.KnownModIndex:GetModsToLoad()) do if CHECK_MODS[m
 
 -- IMPORTS
 local pcall = GLOBAL.pcall
-local modRoot = env.MODROOT
 local require = GLOBAL.require
+local TheSim = GLOBAL.TheSim
+local resolvefilepath = GLOBAL.resolvefilepath
+local LoadFonts = GLOBAL.LoadFonts
 local DEFAULT_FALLBACK_TABLE = GLOBAL.DEFAULT_FALLBACK_TABLE
 local DEFAULT_FALLBACK_TABLE_OUTLINE = GLOBAL.DEFAULT_FALLBACK_TABLE_OUTLINE
 local FONTS = GLOBAL.FONTS
@@ -18,10 +20,26 @@ local Inv = require("widgets/inventorybar")
 local HoverText = require("widgets/hoverer")
 
 -- ASSETS
-local ICONS_FONT = "itemmeta_icons"
-table.insert(DEFAULT_FALLBACK_TABLE, 1, ICONS_FONT)
-table.insert(DEFAULT_FALLBACK_TABLE_OUTLINE, 1, ICONS_FONT)
-table.insert(FONTS, { filename = modRoot .. "fonts/icons.zip", alias = ICONS_FONT, disable_color = true })
+local ICONS_FONT_ALIAS = "itemmeta_icons"
+local ICONS_FONT_PATH = resolvefilepath("fonts/icons.zip")
+
+-- Declare the font asset in the mod asset table
+Assets = {
+    Asset("FONT", ICONS_FONT_PATH),
+}
+
+-- Load the icons font
+AddSimPostInit(function()
+    -- Add icons to the list of fonts to load
+    table.insert(FONTS, { filename = ICONS_FONT_PATH, alias = ICONS_FONT_ALIAS, disable_color = true })
+
+    -- Add icons (as fallback) to other fonts
+    table.insert(DEFAULT_FALLBACK_TABLE, 1, ICONS_FONT_ALIAS)
+    table.insert(DEFAULT_FALLBACK_TABLE_OUTLINE, 1, ICONS_FONT_ALIAS)
+
+    -- Reload all fonts
+    LoadFonts()
+end)
 
 -- CONFIG
 GLOBAL.MOD_ITEMMETA = {
