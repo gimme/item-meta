@@ -2,7 +2,7 @@
 
 Item Meta is a quality-of-life client mod for **Don't Starve Together**. It is designed to provide players with additional information about items directly in the tooltips, reducing the need to look things up on the wiki.
 
-![meatballs example](screenshots/food.png)
+![mod icon](images/modicon.png)
 
 
 ## Features
@@ -12,6 +12,8 @@ Item Meta is a quality-of-life client mod for **Don't Starve Together**. It is d
 - If Cooked: Hold `Alt` to show what the values will be if the item is cooked.
 - User-Friendly Interface: Familiar icons are used in front of the numbers, which blends in with the UI and makes the information easy to parse.
 - Fair Info: All values are static and do not provide any unfair information based on the game state.
+
+![meatballs example](screenshots/food.png)
 
 
 ## Installation
