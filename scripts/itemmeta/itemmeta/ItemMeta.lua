@@ -1,4 +1,4 @@
-local descriptor = require("itemmeta.itemmeta.ItemMeta_descriptor")
+local describer = require("itemmeta.itemmeta.ItemMeta_describer")
 
 --- Returns the health multiplier if the item is spiced with salt, otherwise 0.
 ---@return number
@@ -142,7 +142,7 @@ end)
 ---@param alternate boolean If the alternate metadata should be shown
 ---@return string
 function ItemMeta:GetDescription(cooked, alternate)
-    return descriptor.GetDescription(self, cooked, alternate)
+    return describer.GetDescription(self, cooked, alternate)
 end
 
 return ItemMeta

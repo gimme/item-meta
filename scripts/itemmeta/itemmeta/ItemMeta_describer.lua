@@ -1,7 +1,7 @@
 local STRINGS = require("itemmeta.language.strings")
 local ICONS = require("itemmeta.language.icons")
 
-local descriptor = {}
+local describer = {}
 
 --- Rounds the value to one decimal place.
 ---@param value number
@@ -92,7 +92,7 @@ end
 ---@param cooked boolean If the description is for the cooked version of the item
 ---@param alternate boolean If the alternate metadata should be shown
 ---@return string
-function descriptor.GetDescription(itemMeta, cooked, alternate)
+function describer.GetDescription(itemMeta, cooked, alternate)
     local str = ""
 
     if alternate then
@@ -108,4 +108,4 @@ function descriptor.GetDescription(itemMeta, cooked, alternate)
     return str
 end
 
-return descriptor
+return describer
