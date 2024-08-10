@@ -27,7 +27,7 @@ Don't forget to enable the mod in-game.
 
 ## Compatibility
 
-This mod is for Don't Starve Together and should work seamlessly with most other mods. However, conflicts may arise with mods that also alter tooltip displays.
+This mod is for Don't Starve Together and should work seamlessly with most other mods. However, conflicts may arise with mods that also alter fonts or tooltip displays.
 
 
 ## Contribution and Feedback
