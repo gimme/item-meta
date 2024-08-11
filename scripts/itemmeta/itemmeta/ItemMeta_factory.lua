@@ -21,14 +21,16 @@ local function SpawnAndRemoveItem(prefab)
     local itemCopyCooked
 
     if itemCopy then
-        if itemCopy.components.cookable then
-            local campfire = SpawnPrefab("campfire")
-            itemCopyCooked = itemCopy.components.cookable:Cook(campfire, ThePlayer)
-            itemCopyCooked:Remove()
-            campfire:Remove()
+        if itemCopy.components and itemCopy.components.cookable then
+            local campfire = debug.safecall(SpawnPrefab, "campfire")
+            debug.safecall(function()
+                itemCopyCooked = itemCopy.components.cookable:Cook(campfire, ThePlayer)
+                itemCopyCooked:Remove()
+            end)
+            debug.safecall(function() campfire:Remove() end)
         end
 
-        itemCopy:Remove()
+        debug.safecall(function() itemCopy:Remove() end)
     end
 
     TheWorld.ismastersim = isMasterSim
