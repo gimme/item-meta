@@ -8,16 +8,16 @@ for _, modName in pairs(GLOBAL.KnownModIndex:GetModsToLoad()) do if CHECK_MODS[m
 -- IMPORTS
 local pcall = GLOBAL.pcall
 local require = GLOBAL.require
-local TheSim = GLOBAL.TheSim
 local resolvefilepath = GLOBAL.resolvefilepath
 local LoadFonts = GLOBAL.LoadFonts
+local Vector3 = GLOBAL.Vector3
+local TheInput = GLOBAL.TheInput
 local DEFAULT_FALLBACK_TABLE = GLOBAL.DEFAULT_FALLBACK_TABLE
 local DEFAULT_FALLBACK_TABLE_OUTLINE = GLOBAL.DEFAULT_FALLBACK_TABLE_OUTLINE
 local FONTS = GLOBAL.FONTS
 local mod_interface = require("itemmeta.mod_interface")
 local ItemTile = require("widgets/itemtile")
 local Inv = require("widgets/inventorybar")
-local HoverText = require("widgets/hoverer")
 
 -- ASSETS
 local ICONS_FONT_ALIAS = "itemmeta_icons"
@@ -60,33 +60,34 @@ function Inv:GetDescriptionString(item)
     return _Inv_GetDescriptionString(self, item) .. (success and result or "")
 end
 
--- Adjust the tooltip position to keep it on screen. Only change is the YOFFSETDOWN value.
-function HoverText:UpdatePosition(x, y)
-    local scale = self:GetScale()
-    local scr_w, scr_h = TheSim:GetScreenSize()
-    local w = 0
-    local h = 0
+-- Keep the tooltip above the cursor
+local _ItemTile_GetTooltipPos = ItemTile.GetTooltipPos
+function ItemTile:GetTooltipPos()
+    -- Allow other mods to position the tooltip
+    local basePos = _ItemTile_GetTooltipPos and _ItemTile_GetTooltipPos(self)
+    if (basePos) then return basePos end
 
-    if self.text ~= nil and self.str ~= nil then
-        local w0, h0 = self.text:GetRegionSize()
-        w = math.max(w, w0)
-        h = math.max(h, h0)
-    end
-    if self.secondarytext ~= nil and self.secondarystr ~= nil then
-        local w1, h1 = self.secondarytext:GetRegionSize()
-        w = math.max(w, w1)
-        h = math.max(h, h1)
-    end
+    local success, result = pcall(function()
+        -- Count the number of lines in the tooltip
+        local lines = 1
+        if self.tooltip and self.tooltip ~= "" then
+            for _ in string.gmatch(self.tooltip, "\n") do lines = lines + 1 end
+        end
 
-    w = w * scale.x * .5
-    h = h * scale.y * .5
-
-    local YOFFSETUP = -80
-    local YOFFSETDOWN = 0 -- Changed from -50
-    local XOFFSET = 10
-
-    self:SetPosition(
-            math.clamp(x, w + XOFFSET, scr_w - w - XOFFSET),
-            math.clamp(y, h + YOFFSETDOWN * scale.y, scr_h - h - YOFFSETUP * scale.y),
-            0)
+        -- Place the tooltip above the cursor
+        return Vector3(0, 10 + 15 * lines, 0)
+    end)
+    return success and result or basePos
 end
+
+-- Prevent the hoverer from messing with the tooltip position near the bottom of the screen
+AddClassPostConstruct("widgets/hoverer", function(self)
+    local _HoverText_SetPosition = self.SetPosition
+    function self:SetPosition(x, y, z)
+        pcall(function()
+            local cursorY = TheInput:GetScreenPosition().y
+            y = math.min(y, cursorY)
+        end)
+        _HoverText_SetPosition(self, x, y, z)
+    end
+end)
