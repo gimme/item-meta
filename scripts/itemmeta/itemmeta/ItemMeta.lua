@@ -1,22 +1,23 @@
 local describer = require("itemmeta.itemmeta.ItemMeta_describer")
+local debug = require("itemmeta.util.debug")
 
 --- Returns the health multiplier if the item is spiced with salt, otherwise 0.
 ---@return number
 local function GetHealthMultiplier(item)
-    local success, result = pcall(function()
+    local result = debug.safecall(function()
         if item:HasTag("spicedfood") and item.components.edible.spice == "SPICE_SALT" then
             return TUNING.SPICE_MULTIPLIERS.SPICE_SALT.HEALTH or 0.25
         end
     end)
 
-    return success and result or 0
+    return result or 0
 end
 
 --- Returns if the item can be consumed by the player (eat or heal).
 ---@param item table
 ---@return boolean
 local function CanConsume(item)
-    local success, result = pcall(function()
+    local result = debug.safecall(function()
         assert(ACTIONS.EAT, "ACTIONS.EAT is not defined")
 
         local actions = {}
@@ -29,7 +30,7 @@ local function CanConsume(item)
         return false
     end)
 
-    if not success then return true end
+    if result == nil then return true end
     return result
 end
 

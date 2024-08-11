@@ -1,3 +1,5 @@
+local debug = require("itemmeta.util.debug")
+
 local strings = {
     DAYS = "days",
     HP = "hp",
@@ -19,7 +21,7 @@ local function LoadTranslations(languageCode)
 end
 
 -- Load translations for the current language, overriding the default English strings.
-pcall(function()
+debug.safecall(function()
     local loc = require("languages/loc")
     local code = loc and loc.CurrentLocale and loc.CurrentLocale.code
     if code == "zhr" then code = "zh" end

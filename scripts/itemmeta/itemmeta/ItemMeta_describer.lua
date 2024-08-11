@@ -1,5 +1,6 @@
 local STRINGS = require("itemmeta.language.strings")
 local ICONS = require("itemmeta.language.icons")
+local debug = require("itemmeta.util.debug")
 
 local describer = {}
 
@@ -15,7 +16,7 @@ local function RoundToOneDecimal(value) return math.floor(value * 10 + 0.5) / 10
 ---@return string
 local function CreateEntry(icon, value, format)
     if not value then return "" end
-    pcall(function()
+    debug.safecall(function()
         if type(value) == "number" then value = RoundToOneDecimal(value) end
         if type(format) == "function" then value = format(value) end
         if type(format) == "string" then value = value .. format end

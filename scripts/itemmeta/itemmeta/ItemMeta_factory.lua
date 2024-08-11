@@ -1,4 +1,5 @@
 local ItemMeta = require("itemmeta.itemmeta.ItemMeta")
+local debug = require("itemmeta.util.debug")
 
 local factory = {}
 
@@ -16,10 +17,10 @@ local function SpawnAndRemoveItem(prefab)
     TheWorld.ismastersim = true
     AllPlayers = {}
 
-    local success, itemCopy = pcall(SpawnPrefab, prefab)
+    local itemCopy = debug.safecall(SpawnPrefab, prefab)
     local itemCopyCooked
 
-    if success then
+    if itemCopy then
         if itemCopy.components.cookable then
             local campfire = SpawnPrefab("campfire")
             itemCopyCooked = itemCopy.components.cookable:Cook(campfire, ThePlayer)
@@ -28,8 +29,6 @@ local function SpawnAndRemoveItem(prefab)
         end
 
         itemCopy:Remove()
-    else
-        print("Error: Could not spawn item " .. prefab, itemCopy)
     end
 
     TheWorld.ismastersim = isMasterSim
