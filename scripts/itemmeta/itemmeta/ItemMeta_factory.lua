@@ -16,12 +16,10 @@ local function SpawnAndRemoveItem(prefab)
     TheWorld.ismastersim = true
     AllPlayers = {}
 
-    local spawned, itemCopy = pcall(SpawnPrefab, prefab)
+    local success, itemCopy = pcall(SpawnPrefab, prefab)
     local itemCopyCooked
 
-    if not spawned then
-        print("Error: Could not spawn item " .. prefab, itemCopy)
-    else
+    if success then
         if itemCopy.components.cookable then
             local campfire = SpawnPrefab("campfire")
             itemCopyCooked = itemCopy.components.cookable:Cook(campfire, ThePlayer)
@@ -30,6 +28,8 @@ local function SpawnAndRemoveItem(prefab)
         end
 
         itemCopy:Remove()
+    else
+        print("Error: Could not spawn item " .. prefab, itemCopy)
     end
 
     TheWorld.ismastersim = isMasterSim
