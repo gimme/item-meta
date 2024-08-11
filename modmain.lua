@@ -81,12 +81,14 @@ end
 
 -- Prevent the hoverer from messing with the tooltip position near the bottom of the screen
 AddClassPostConstruct("widgets/hoverer", function(self)
-    local _HoverText_SetPosition = self.SetPosition
-    function self:SetPosition(x, y, z)
+    local _SetPosition = self.SetPosition
+    function self:SetPosition(pos, y, ...)
         debug.safecall(function()
-            local cursorY = TheInput:GetScreenPosition().y
-            y = math.min(y, cursorY)
+            if type(y) == "number" then
+                local cursorY = TheInput:GetScreenPosition().y
+                y = math.min(y, cursorY)
+            end
         end)
-        _HoverText_SetPosition(self, x, y, z)
+        return _SetPosition(self, pos, y, ...)
     end
 end)
