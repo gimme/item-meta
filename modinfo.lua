@@ -52,4 +52,14 @@ configuration_options =
         },
         default = "",
     },
+    {
+        name = "FORCE_ENABLE",
+        label = "Force Enable",
+        hover = "Forces the mod to be enabled regardless of other mods. (Default: False)",
+        options = {
+            {description = "False", data = ""},
+            {description = "True", data = "true"},
+        },
+        default = "",
+    },
 }

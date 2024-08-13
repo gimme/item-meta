@@ -29,8 +29,14 @@ local INCOMPATIBLE_MODS = {
     "workshop-2189004162", -- Insight,
     "workshop-666155465", -- Show Me,
 }
-for _, modName in ipairs(INCOMPATIBLE_MODS) do if GLOBAL.KnownModIndex:IsModEnabled(modName) then return end end
-for _, modName in pairs(GLOBAL.KnownModIndex:GetModsToLoad()) do if INCOMPATIBLE_MODS[modName] then return end end
+if config.FORCE_ENABLE ~= "true" then
+    for _, modId in ipairs(INCOMPATIBLE_MODS) do
+        if GLOBAL.KnownModIndex:IsModEnabled(modId) then
+            debug.log("Disabled due to incompatible mod:", modId)
+            return
+        end
+    end
+end
 
 -- SCRIPTS
 local mod_interface = require("itemmeta.mod_interface")
