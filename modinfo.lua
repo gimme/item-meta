@@ -5,7 +5,7 @@ version = "0.2.3"
 forumthread = ""
 api_version = 10
 api_version_dst = 10
-priority = 10
+priority = -10
 
 -- Custom icon
 icon_atlas = "modicon.xml"
