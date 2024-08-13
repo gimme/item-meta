@@ -18,6 +18,7 @@ local DEFAULT_FALLBACK_TABLE_OUTLINE = GLOBAL.DEFAULT_FALLBACK_TABLE_OUTLINE
 local FONTS = GLOBAL.FONTS
 local mod_interface = require("itemmeta.mod_interface")
 local debug = require("itemmeta.util.debug")
+local config = require("itemmeta.util.config")
 local ItemTile = require("widgets/itemtile")
 local Inv = require("widgets/inventorybar")
 
@@ -44,9 +45,14 @@ AddSimPostInit(function()
 end)
 
 -- CONFIG
-GLOBAL.MOD_ITEMMETA = {
-    FoodFormat = GetModConfigData("FOOD_FORMAT"),
-}
+debug.safecall(function()
+    for key, _ in pairs(config) do
+        local value = GetModConfigData(key)
+        if value and value ~= "" then
+            config[key] = value
+        end
+    end
+end)
 
 -- Add metadata to inventory item tooltips
 local _ItemTile_GetDescriptionString = ItemTile.GetDescriptionString

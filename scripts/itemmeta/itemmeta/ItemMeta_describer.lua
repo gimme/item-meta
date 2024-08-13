@@ -1,6 +1,7 @@
 local STRINGS = require("itemmeta.language.strings")
 local ICONS = require("itemmeta.language.icons")
 local debug = require("itemmeta.util.debug")
+local config = require("itemmeta.util.config")
 
 local describer = {}
 
@@ -57,7 +58,7 @@ local function GetNormalDescription(itemMeta)
     str = str .. CreateRow(insulationIcon, itemMeta.insulation)
 
     if itemMeta.consumable and (itemMeta.hunger or itemMeta.health or itemMeta.sanity) then
-        local vertical = MOD_ITEMMETA.FoodFormat == "v"
+        local vertical = config.FOOD_FORMAT == "v"
         local suffix = vertical and "\n" or "  "
 
         str = str .. "\n"
