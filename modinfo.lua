@@ -1,7 +1,7 @@
 name = "Item Meta"
 description = "Displays extra metadata in item tooltips."
 author = "gimmeh"
-version = "0.2.3"
+version = "0.3.0"
 forumthread = ""
 api_version = 10
 api_version_dst = 10
