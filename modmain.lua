@@ -1,15 +1,4 @@
--- Disable with incompatible mods
-local CHECK_MODS = {
-    "workshop-347079953", -- Display Food Values
-    "workshop-2189004162", -- Insight,
-    "workshop-666155465", -- Show Me,
-}
-for _, modName in ipairs(CHECK_MODS) do if GLOBAL.KnownModIndex:IsModEnabled(modName) then return end end
-for _, modName in pairs(GLOBAL.KnownModIndex:GetModsToLoad()) do if CHECK_MODS[modName] then return end end
-
-print("[Item Meta]", "Loading modmain.lua...")
-
--- IMPORTS
+-- STATIC IMPORTS
 local require = GLOBAL.require
 local resolvefilepath = GLOBAL.resolvefilepath
 local LoadFonts = GLOBAL.LoadFonts
@@ -18,9 +7,33 @@ local TheInput = GLOBAL.TheInput
 local DEFAULT_FALLBACK_TABLE = GLOBAL.DEFAULT_FALLBACK_TABLE
 local DEFAULT_FALLBACK_TABLE_OUTLINE = GLOBAL.DEFAULT_FALLBACK_TABLE_OUTLINE
 local FONTS = GLOBAL.FONTS
-local mod_interface = require("itemmeta.mod_interface")
 local debug = require("itemmeta.util.debug")
 local config = require("itemmeta.util.config")
+
+debug.log("Loading modmain.lua...")
+
+-- INIT
+-- Load config
+debug.safecall(function()
+    for key, _ in pairs(config) do
+        local value = GetModConfigData(key)
+        if value and value ~= "" then
+            config[key] = value
+        end
+    end
+end)
+
+-- Disable with incompatible mods
+local INCOMPATIBLE_MODS = {
+    "workshop-347079953", -- Display Food Values
+    "workshop-2189004162", -- Insight,
+    "workshop-666155465", -- Show Me,
+}
+for _, modName in ipairs(INCOMPATIBLE_MODS) do if GLOBAL.KnownModIndex:IsModEnabled(modName) then return end end
+for _, modName in pairs(GLOBAL.KnownModIndex:GetModsToLoad()) do if INCOMPATIBLE_MODS[modName] then return end end
+
+-- SCRIPTS
+local mod_interface = require("itemmeta.mod_interface")
 local ItemTile = require("widgets/itemtile")
 local Inv = require("widgets/inventorybar")
 
@@ -48,16 +61,7 @@ AddSimPostInit(function()
     debug.log("Fonts reloaded.")
 end)
 
--- CONFIG
-debug.safecall(function()
-    for key, _ in pairs(config) do
-        local value = GetModConfigData(key)
-        if value and value ~= "" then
-            config[key] = value
-        end
-    end
-end)
-
+-- MODIFICATIONS
 -- Add metadata to inventory item tooltips
 local _ItemTile_GetDescriptionString = ItemTile.GetDescriptionString
 function ItemTile:GetDescriptionString()
