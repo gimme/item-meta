@@ -1,5 +1,10 @@
 local debug = {}
 
+--- Prints with a prefix.
+function debug.log(...)
+    print("[Item Meta]", ...)
+end
+
 --- Safely calls a function and logs any errors.
 ---@param fn function
 ---@vararg any
@@ -7,7 +12,7 @@ local debug = {}
 function debug.safecall(fn, ...)
     local success, result = pcall(fn, ...)
     if success then return result end
-    print("Error:", result)
+    debug.log("Error:", result)
     return nil
 end
 

@@ -7,6 +7,8 @@ local CHECK_MODS = {
 for _, modName in ipairs(CHECK_MODS) do if GLOBAL.KnownModIndex:IsModEnabled(modName) then return end end
 for _, modName in pairs(GLOBAL.KnownModIndex:GetModsToLoad()) do if CHECK_MODS[modName] then return end end
 
+print("[Item Meta]", "Loading modmain.lua...")
+
 -- IMPORTS
 local require = GLOBAL.require
 local resolvefilepath = GLOBAL.resolvefilepath
@@ -41,7 +43,9 @@ AddSimPostInit(function()
     table.insert(DEFAULT_FALLBACK_TABLE_OUTLINE, 1, ICONS_FONT_ALIAS)
 
     -- Reload all fonts
+    debug.log("Reloading fonts...")
     LoadFonts()
+    debug.log("Fonts reloaded.")
 end)
 
 -- CONFIG
@@ -100,3 +104,5 @@ AddClassPostConstruct("widgets/hoverer", function(self)
         return _SetPosition(self, pos, y, ...)
     end
 end)
+
+debug.log("Done!")

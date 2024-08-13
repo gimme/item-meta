@@ -57,17 +57,19 @@ local function GetNormalDescription(itemMeta)
     str = str .. CreateRow(ICONS.WETNESS, itemMeta.waterResist, "%")
     str = str .. CreateRow(insulationIcon, itemMeta.insulation)
 
-    if itemMeta.consumable and (itemMeta.hunger or itemMeta.health or itemMeta.sanity) then
-        local vertical = config.FOOD_FORMAT == "v"
-        local suffix = vertical and "\n" or "  "
+    debug.safecall(function()
+        if itemMeta.consumable and (itemMeta.hunger or itemMeta.health or itemMeta.sanity) then
+            local vertical = config.FOOD_FORMAT == "v"
+            local suffix = vertical and "\n" or "  "
 
-        str = str .. "\n"
-        str = str .. CreateEntry(ICONS.HUNGER, itemMeta.hunger, suffix)
-        str = str .. CreateEntry(ICONS.HEALTH, itemMeta.health, suffix)
-        str = str .. CreateEntry(ICONS.SANITY, itemMeta.sanity, suffix)
-        -- Remove the final suffix
-        str = str:sub(1, -(1 + #suffix))
-    end
+            str = str .. "\n"
+            str = str .. CreateEntry(ICONS.HUNGER, itemMeta.hunger, suffix)
+            str = str .. CreateEntry(ICONS.HEALTH, itemMeta.health, suffix)
+            str = str .. CreateEntry(ICONS.SANITY, itemMeta.sanity, suffix)
+            -- Remove the final suffix
+            str = str:sub(1, -(1 + #suffix))
+        end
+    end)
 
     return str
 end
