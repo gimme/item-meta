@@ -1,6 +1,8 @@
 -- Disable with incompatible mods
 local CHECK_MODS = {
     "workshop-347079953", -- Display Food Values
+    "workshop-2189004162", -- Insight,
+    "workshop-666155465", -- Show Me,
 }
 for _, modName in ipairs(CHECK_MODS) do if GLOBAL.KnownModIndex:IsModEnabled(modName) then return end end
 for _, modName in pairs(GLOBAL.KnownModIndex:GetModsToLoad()) do if CHECK_MODS[modName] then return end end
