@@ -31,12 +31,24 @@ configuration_options =
 {
     {
         name = "FOOD_FORMAT",
-        label = "Food Values Format",
-        hover = "If hunger/health/sanity should be displayed on the same (H) or separate (V) lines. (Default: Horizontal)",
+        label = "Food Format",
+        hover = "If hunger/health/sanity should be displayed on the same (H) or separate (V) rows. (Default: Horizontal)",
         options = {
             {description = "Default", data = ""},
             {description = "Horizontal", data = "h"},
             {description = "Vertical", data = "v"},
+        },
+        default = "",
+    },
+    {
+        name = "FOOD_ORDER",
+        label = "Food Order",
+        hover = "Which order hunger/health/sanity should be displayed in. (Default: hu/he/sa)",
+        options = {
+            {description = "Default", data = ""},
+            {description = "hu/he/sa", data = "hu/he/sa"},
+            {description = "hu/sa/he", data = "hu/sa/he"},
+            {description = "he/hu/sa", data = "he/hu/sa"},
         },
         default = "",
     },

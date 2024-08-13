@@ -61,11 +61,17 @@ local function GetNormalDescription(itemMeta)
         if itemMeta.consumable and (itemMeta.hunger or itemMeta.health or itemMeta.sanity) then
             local vertical = config.FOOD_FORMAT == "v"
             local suffix = vertical and "\n" or "  "
+            local foodValues = {
+                hu = CreateEntry(ICONS.HUNGER, itemMeta.hunger, suffix),
+                he = CreateEntry(ICONS.HEALTH, itemMeta.health, suffix),
+                sa = CreateEntry(ICONS.SANITY, itemMeta.sanity, suffix),
+            }
 
             str = str .. "\n"
-            str = str .. CreateEntry(ICONS.HUNGER, itemMeta.hunger, suffix)
-            str = str .. CreateEntry(ICONS.HEALTH, itemMeta.health, suffix)
-            str = str .. CreateEntry(ICONS.SANITY, itemMeta.sanity, suffix)
+            -- Add the food values in the configured order
+            for key in config.FOOD_ORDER:gmatch("%a+") do
+                str = str .. foodValues[key]
+            end
             -- Remove the final suffix
             str = str:sub(1, -(1 + #suffix))
         end
