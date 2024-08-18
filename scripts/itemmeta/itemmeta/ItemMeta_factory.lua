@@ -24,6 +24,7 @@ local function SpawnAndRemoveItem(prefab)
         if itemCopy.components and itemCopy.components.cookable then
             local campfire = debug.safecall(SpawnPrefab, "campfire")
             debug.safecall(function()
+                itemCopy.components.cookable:SetOnCookedFn(nil)
                 itemCopyCooked = itemCopy.components.cookable:Cook(campfire, ThePlayer)
                 itemCopyCooked:Remove()
             end)
